@@ -11,7 +11,7 @@ The app and every extension depend on this package, and on nothing of each other
 ## Use it
 
 ```swift
-.package(url: "https://github.com/WellSpent-OC/WellSpent-ExtensionKit.git", from: "0.1.0")
+.package(url: "https://github.com/WellSpent-OC/WellSpent-ExtensionKit.git", from: "0.2.0")
 ```
 
 ## Test it

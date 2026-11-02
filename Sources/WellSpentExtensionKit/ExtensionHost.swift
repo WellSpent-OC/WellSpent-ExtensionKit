@@ -18,6 +18,10 @@ public protocol ExtensionHost: AnyObject {
     func groups(claimedBy extensionID: String) -> [HostGroup]
     /// A new group, claimed by the extension. Nil when it could not be made.
     func addGroup(named name: String, claimedBy extensionID: String) -> String?
+    /// Gives a group this extension claimed back to the person, as a plain
+    /// group. Its budgets and entries stay. False when the group is not there
+    /// or this extension did not claim it.
+    func releaseGroup(_ group: String, claimedBy extensionID: String) -> Bool
     /// The group's budget with this name, made with no limit if it is not
     /// there yet, and made without opening it. Nil when it could not be made.
     func budget(named name: String, in group: String) -> String?
