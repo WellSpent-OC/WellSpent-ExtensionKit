@@ -14,13 +14,6 @@ public protocol ExtensionHost: AnyObject {
     /// The calendar the app counts months and days with.
     var calendar: Calendar { get }
 
-    /// The groups this extension has claimed, in the app's order.
-    func groups(claimedBy extensionID: String) -> [HostGroup]
-    /// A new group, claimed by the extension. Nil when it could not be made.
-    func addGroup(named name: String, claimedBy extensionID: String) -> String?
-    /// The group's budget with this name, made with no limit if it is not
-    /// there yet, and made without opening it. Nil when it could not be made.
-    func budget(named name: String, in group: String) -> String?
 
     /// The group's money this period. Nil when the group has no budgets, or
     /// its period has no end.
@@ -31,9 +24,6 @@ public protocol ExtensionHost: AnyObject {
     func apply(_ batch: HostImport)
 
     #if canImport(SwiftUI)
-    /// The group's small money wheel, as the app draws it on Home. Nil when
-    /// the group has no wheel this period.
-    func smallWheel(for group: String) -> AnyView?
     /// A wheel drawn from these values, at this size.
     func wheel(_ values: HostWheel, size: HostWheelSize) -> AnyView?
     #endif
@@ -66,26 +56,6 @@ public protocol ExtensionHost: AnyObject {
     func newEntry(linkedTo record: String?, in group: String)
     /// Opens the normal entry sheet on an entry already there.
     func openEntry(_ id: String)
-}
-
-/// Until the Houses screens move off the old calls, a host or a test double
-/// may leave the new ones out. These go when the old calls do.
-public extension ExtensionHost {
-    #if canImport(SwiftUI)
-    func wheel(_ values: HostWheel, size: HostWheelSize) -> AnyView? { nil }
-    #endif
-    var revision: Int { 0 }
-    func groups() -> [HostGroup] { [] }
-    func addGroup(named name: String) -> String? { nil }
-    func budgets(in group: String) -> [HostBudget] { [] }
-    func records(kind: String, _ visibility: HostRecord.Visibility, in group: String,
-                 extensionID: String) -> [HostRecord] { [] }
-    @discardableResult
-    func saveRecord(kind: String, _ visibility: HostRecord.Visibility, sourceKey: String?, id: String?, body: String,
-                    in group: String, extensionID: String) -> String? { nil }
-    func removeRecord(_ id: String, _ visibility: HostRecord.Visibility) {}
-    func newEntry(linkedTo record: String?, in group: String) {}
-    func openEntry(_ id: String) {}
 }
 
 /// What an extension adds to the app's own screens. The app asks, and an
@@ -155,13 +125,21 @@ public struct HostRecord: Equatable, Sendable {
     public let kind: String
     public let sourceKey: String?
     public let body: String
+    /// Who saved it last, by the name they gave the group. Nil when it was this
+    /// person, or when it hasn't synced.
+    public let savedBy: String?
+    /// When it was saved last.
+    public let savedAt: Date?
 
-    public init(id: String, group: String, kind: String, sourceKey: String?, body: String) {
+    public init(id: String, group: String, kind: String, sourceKey: String?, body: String,
+                savedBy: String? = nil, savedAt: Date? = nil) {
         self.id = id
         self.group = group
         self.kind = kind
         self.sourceKey = sourceKey
         self.body = body
+        self.savedBy = savedBy
+        self.savedAt = savedAt
     }
 }
 
