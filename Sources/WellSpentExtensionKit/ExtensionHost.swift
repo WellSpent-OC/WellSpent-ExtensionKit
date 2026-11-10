@@ -26,6 +26,10 @@ public protocol ExtensionHost: AnyObject {
     #if canImport(SwiftUI)
     /// A wheel drawn from these values, at this size.
     func wheel(_ values: HostWheel, size: HostWheelSize) -> AnyView?
+    /// The app's locked card for one of this extension's records, such as a
+    /// house, when the person's plan has locked it. The extension draws it in
+    /// place of the record's page. Nil when the record is open.
+    func lockedPage(for record: String) -> AnyView?
     #endif
 
     // MARK: - The whole group, with an extension's own records
