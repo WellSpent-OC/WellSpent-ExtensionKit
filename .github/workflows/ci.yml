@@ -17,4 +17,6 @@ jobs:
     container: swift:6.2-noble
     steps:
       - uses: actions/checkout@v4
+      # GTK 4's headers, for the Linux screens' target.
+      - run: apt-get update && apt-get install -y --no-install-recommends libgtk-4-dev pkg-config
       - run: swift test
