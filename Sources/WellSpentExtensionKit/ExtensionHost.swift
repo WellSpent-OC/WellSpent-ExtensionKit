@@ -71,6 +71,10 @@ public protocol ExtensionSlots: AnyObject {
     /// The line at the top of a group's page on the iPhone, which scrolls to
     /// the extension's section.
     func groupPageTopLine(for group: String) -> HostTopLine?
+    /// The records in these groups that count toward the person's plan, such
+    /// as houses, by id and name, for the plan's pick screen and plan card.
+    /// Empty for an extension whose records the plan doesn't count.
+    func planRecords(in groups: Set<String>) -> [HostLinkChoices.Choice]
     #if canImport(SwiftUI)
     /// The extension's section of a group's page. Its first row carries
     /// `HostScrollID.groupPageSection`.
