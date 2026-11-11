@@ -33,5 +33,11 @@ void wellspent_control_label(void *widget, const char *label);
 /// GTK's own name for it kept, such as a list's chosen option.
 void wellspent_control_description(void *widget, const char *description);
 
+/// Tab and Shift+Tab move the keyboard between the controls of the window that
+/// holds `widget` (a GtkWidget), once it is in one. For a sheet, whose window
+/// lets no Tab through in SwiftCrossUI 0.10.0. Once per window is enough; more
+/// calls change nothing.
+void wellspent_kit_tab_moves_focus(void *widget);
+
 #endif
 #endif
