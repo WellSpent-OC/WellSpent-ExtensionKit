@@ -50,8 +50,10 @@ void wellspent_kit_tab_moves_focus(void *widget) {
     // until it is.
     if (gtk_widget_get_root(GTK_WIDGET(widget))) {
         add_tab_handler(GTK_WIDGET(widget));
-    } else {
+    } else if (!g_object_get_data(G_OBJECT(widget), "wellspent-tab-moves-focus-waiting")) {
+        // Marked, so each update before then does not add another wait.
         g_signal_connect(widget, "realize", G_CALLBACK(add_tab_handler_on_realize), NULL);
+        g_object_set_data(G_OBJECT(widget), "wellspent-tab-moves-focus-waiting", GINT_TO_POINTER(1));
     }
 }
 
