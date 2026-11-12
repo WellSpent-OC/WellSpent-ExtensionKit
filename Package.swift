@@ -30,7 +30,7 @@ products.append(.library(name: "WellSpentExtensionKitLinux", targets: ["WellSpen
 // Pinned exactly, the same in three places: this kit, the public repo's
 // Linux/Package.swift and WellSpent-Properties. SwiftPM resolves one
 // version for the whole app, so the three pins move together.
-dependencies.append(.package(url: "https://github.com/stackotter/swift-cross-ui.git", exact: "0.10.0"))
+dependencies.append(.package(url: "https://github.com/WellSpent-OC/swift-cross-ui.git", exact: "0.10.1-wellspent.2"))
 targets += [
         .systemLibrary(name: "WellSpentKitGtk", pkgConfig: "gtk4"),
         // The C side: GTK's accessibility calls. Its sources are empty off Linux.
